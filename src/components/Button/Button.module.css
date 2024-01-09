@@ -1,0 +1,14 @@
+.primary {
+  font-size: 16px;
+  background-color: #4354b0;
+  padding: 10px 40px;
+
+  color: white;
+  border: none;
+  border-radius: 3px;
+}
+
+.primary:hover {
+  cursor: pointer;
+  background-color: #2a3b96;
+}
