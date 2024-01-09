@@ -13,10 +13,10 @@ jobs:
 
       - name: Create env file
         env:
-          PIXABAY_KEY: ${{ secrets.PIXABAY_KEY }}
+          REACT_APP_PIXABAY_KEY: ${{ secrets.PIXABAY_KEY }}
         run: |
           touch .env
-          echo REACT_APP_PIXABAY_KEY = \"$PIXABAY_KEY\" >> .env
+          echo REACT_APP_PIXABAY_KEY = \"$REACT_APP_PIXABAY_KEY\" >> .env
 
       - name: Install, lint, build 🔧
         run: |
