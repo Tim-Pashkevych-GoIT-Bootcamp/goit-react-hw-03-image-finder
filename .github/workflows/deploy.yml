@@ -11,13 +11,6 @@ jobs:
       - name: Checkout 🛎️
         uses: actions/checkout@v2.3.1
 
-      - name: Create env file
-        env:
-          REACT_APP_PIXABAY_KEY: ${{ secrets.PIXABAY_KEY }}
-        run: |
-          touch .env
-          echo REACT_APP_PIXABAY_KEY = \"$REACT_APP_PIXABAY_KEY\" >> .env
-
       - name: Install, lint, build 🔧
         run: |
           npm install
