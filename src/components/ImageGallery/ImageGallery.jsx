@@ -1,28 +1,31 @@
 import React, { Component } from 'react';
 import css from './ImageGallery.module.css';
-import * as API from '../../utils/api';
+// import * as API from '../../utils/api';
+import * as API from '../../utils/apiPexels';
 import Button from 'components/Button/Button';
 import ImageGalleryItem from 'components/ImageGalleryItem/ImageGalleryItem';
 import Modal from 'components/Modal/Modal';
 import Image from 'components/Image/Image';
 
-const INITIAL_STATE = { page: 1, total: 0, selectedImageId: 0, images: [] };
+const INITIAL_STATE = { page: 0, total: 0, selectedImageId: 0, images: [] };
 
 export default class ImageGallery extends Component {
   state = { ...INITIAL_STATE };
 
   async componentDidUpdate(prevProps, prevState) {
-    // If keyword is updated, then update the state by new images
     if (prevProps.keyword !== this.props.keyword) {
-      this.setState({ ...INITIAL_STATE });
-      this.setState(await this.getImages());
+      // Reset the state
+      await this.setState({ ...INITIAL_STATE });
+      // Request a data for a first page
+      this.setState({ page: 1 });
     }
 
-    // If page is updated, then add new images to the state
-    if (prevState.page !== this.state.page) {
-      const { images } = await this.getImages();
+    // Fetch new images
+    if (this.state.page && prevState.page !== this.state.page) {
+      const { images, total } = await this.getImages();
       this.setState(prevState => ({
         images: [...prevState.images, ...images],
+        total,
       }));
     }
   }
@@ -82,8 +85,9 @@ export default class ImageGallery extends Component {
               <>
                 <Modal onClose={this.hideModal}>
                   <Image
-                    src={selectedImage.largeImageURL}
-                    alt={selectedImage.tags}
+                    showLoader="true"
+                    src={selectedImage.src.original}
+                    alt={selectedImage.alt}
                   />
                 </Modal>
               </>

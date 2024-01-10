@@ -5,19 +5,20 @@ import 'react-toastify/dist/ReactToastify.css';
 import Searchbar from './Searchbar/Searchbar';
 import ImageGallery from './ImageGallery/ImageGallery';
 import Loader from './Loader/Loader';
+import Modal from './Modal/Modal';
 
 const INITIAL_STATE = {
   keyword: '',
-  loading: false,
+  showLoader: false,
 };
 
 export class App extends Component {
   state = { ...INITIAL_STATE };
 
   shouldComponentUpdate(prevProps, prevState) {
-    const { keyword, loading } = this.state;
+    const { keyword, showLoader } = this.state;
     // Prevent fetching the same images if the keyword wasn't changed
-    return keyword !== prevState.keyword || loading !== prevState.loading;
+    return keyword !== prevState.keyword || showLoader !== prevState.showLoader;
   }
 
   updateKeyword = keyword => {
@@ -25,7 +26,7 @@ export class App extends Component {
   };
 
   toggleLoader = () => {
-    this.setState(prevState => ({ loading: !prevState.loading }));
+    this.setState(prevState => ({ showLoader: !prevState.showLoader }));
   };
 
   render() {
@@ -38,7 +39,11 @@ export class App extends Component {
           toggleLoader={this.toggleLoader}
         />
 
-        {this.state.loading && <Loader />}
+        {this.state.showLoader && (
+          <Modal>
+            <Loader />
+          </Modal>
+        )}
 
         <ToastContainer autoClose={3000} />
       </>

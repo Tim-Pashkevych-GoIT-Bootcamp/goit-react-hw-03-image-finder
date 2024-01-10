@@ -3,12 +3,12 @@ import css from './ImageGalleryItem.module.css';
 import Image from 'components/Image/Image';
 
 const ImageGalleryItem = ({ image, onClick }) => {
-  const { id, previewURL, tags } = image;
+  const { id, src, alt } = image;
 
   return (
     <li className={css.galleryListItem} onClick={() => onClick(id)}>
       <div className={css.imageWrap}>
-        <Image src={previewURL} alt={tags} />
+        <Image src={src.small} alt={alt} />
       </div>
     </li>
   );
