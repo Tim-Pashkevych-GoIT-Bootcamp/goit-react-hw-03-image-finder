@@ -1,11 +1,7 @@
 import React, { Component } from 'react';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
-import Searchbar from './Searchbar/Searchbar';
-import ImageGallery from './ImageGallery/ImageGallery';
-import Loader from './Loader/Loader';
-import Modal from './Modal/Modal';
+import { Searchbar, ImageGallery, Loader, Modal } from 'components';
 
 const INITIAL_STATE = {
   keyword: '',

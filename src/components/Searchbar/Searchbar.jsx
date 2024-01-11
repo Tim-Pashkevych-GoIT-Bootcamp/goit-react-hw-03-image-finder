@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
 import { toast } from 'react-toastify';
 import { FaMagnifyingGlass } from 'react-icons/fa6';
+import { IconContext } from 'react-icons';
 
 import css from './Searchbar.module.css';
-import Button from 'components/Button/Button';
-import { IconContext } from 'react-icons';
+import { Button } from 'components';
 
 const INITIAL_STATE = {
   keyword: '',
 };
 
-export default class Searchbar extends Component {
+export class Searchbar extends Component {
   state = { ...INITIAL_STATE };
 
   onChange = ({ target }) => {

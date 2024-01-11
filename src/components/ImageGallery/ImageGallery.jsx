@@ -1,19 +1,20 @@
 import React, { Component } from 'react';
+import { toast } from 'react-toastify';
 import css from './ImageGallery.module.css';
-// import * as API from '../../utils/api';
 import * as API from '../../utils/apiPexels';
-import Button from 'components/Button/Button';
-import ImageGalleryItem from 'components/ImageGalleryItem/ImageGalleryItem';
-import Modal from 'components/Modal/Modal';
-import Image from 'components/Image/Image';
+import { Button, Image, Modal } from 'components';
+import { ImageGalleryList } from 'components/ImageGalleryList/ImageGalleryList';
 
 const INITIAL_STATE = { page: 0, total: 0, selectedImageId: 0, images: [] };
 
-export default class ImageGallery extends Component {
+export class ImageGallery extends Component {
   state = { ...INITIAL_STATE };
 
   async componentDidUpdate(prevProps, prevState) {
-    if (prevProps.keyword !== this.props.keyword) {
+    const { page } = this.state;
+    const { keyword } = this.props;
+
+    if (prevProps.keyword !== keyword) {
       // Reset the state
       await this.setState({ ...INITIAL_STATE });
       // Request a data for a first page
@@ -21,7 +22,7 @@ export default class ImageGallery extends Component {
     }
 
     // Fetch new images
-    if (this.state.page && prevState.page !== this.state.page) {
+    if (page && prevState.page !== page) {
       const { images, total } = await this.getImages();
       this.setState(prevState => ({
         images: [...prevState.images, ...images],
@@ -31,12 +32,22 @@ export default class ImageGallery extends Component {
   }
 
   getImages = async () => {
-    // Show loader
-    this.props.toggleLoader();
-    // Fetch data
-    const response = await API.getImages(this.props.keyword, this.state.page);
-    // Hide loader
-    this.props.toggleLoader();
+    let response = { images: [], total: 0 };
+    const { page } = this.state;
+    const { keyword, toggleLoader } = this.props;
+
+    try {
+      // Show loader
+      toggleLoader();
+      // Fetch data
+      response = await API.getImages(keyword, page);
+    } catch (error) {
+      // Show error
+      toast.error(error.message);
+    } finally {
+      // Hide loader
+      toggleLoader();
+    }
 
     return response;
   };
@@ -61,36 +72,22 @@ export default class ImageGallery extends Component {
       <div className={css.galleryContainer}>
         {images.length > 0 && (
           <>
-            <ul className={css.galleryList}>
-              {images.map(image => (
-                <ImageGalleryItem
-                  key={image.id}
-                  image={image}
-                  onClick={() => this.showModal(image.id)}
-                />
-              ))}
-            </ul>
+            <ImageGalleryList images={images} showModal={this.showModal} />
 
             {images.length < total && (
-              <Button
-                id="loadMoreBtn"
-                type="button"
-                onClick={this.loadMoreClick}
-              >
+              <Button type="button" onClick={this.loadMoreClick}>
                 Load more
               </Button>
             )}
 
             {!!selectedImageId && (
-              <>
-                <Modal onClose={this.hideModal}>
-                  <Image
-                    showLoader="true"
-                    src={selectedImage.src.original}
-                    alt={selectedImage.alt}
-                  />
-                </Modal>
-              </>
+              <Modal onClose={this.hideModal}>
+                <Image
+                  showLoader="true"
+                  src={selectedImage.src.original}
+                  alt={selectedImage.alt}
+                />
+              </Modal>
             )}
           </>
         )}

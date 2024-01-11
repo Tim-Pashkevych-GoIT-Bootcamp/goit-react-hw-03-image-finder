@@ -1,12 +1,15 @@
 import React from 'react';
 import css from './Button.module.css';
 
-const Button = ({ type, children, className = 'primary', ...allyProps }) => {
+export const Button = ({
+  type,
+  children,
+  className = 'primary',
+  ...otherProps
+}) => {
   return (
-    <button className={css[className]} type={type} {...allyProps}>
+    <button className={css[className]} type={type} {...otherProps}>
       {children}
     </button>
   );
 };
-
-export default Button;

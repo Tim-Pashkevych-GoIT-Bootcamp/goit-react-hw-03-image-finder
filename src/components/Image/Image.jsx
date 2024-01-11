@@ -1,4 +1,4 @@
-import Loader from 'components/Loader/Loader';
+import { Loader } from 'components';
 import { Component } from 'react';
 
 export class Image extends Component {
@@ -23,5 +23,3 @@ export class Image extends Component {
     );
   }
 }
-
-export default Image;

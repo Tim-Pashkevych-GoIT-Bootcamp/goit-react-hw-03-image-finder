@@ -1,8 +1,8 @@
 import React from 'react';
 import css from './ImageGalleryItem.module.css';
-import Image from 'components/Image/Image';
+import { Image } from 'components';
 
-const ImageGalleryItem = ({ image, onClick }) => {
+export const ImageGalleryItem = ({ image, onClick }) => {
   const { id, src, alt } = image;
 
   return (
@@ -13,5 +13,3 @@ const ImageGalleryItem = ({ image, onClick }) => {
     </li>
   );
 };
-
-export default ImageGalleryItem;

@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { toast } from 'react-toastify';
 
 const pexelsApi = axios.create({
   baseURL: 'https://api.pexels.com/v1/',
@@ -9,23 +8,18 @@ export const getImages = async (keyword, page) => {
   const result = { total: 0, images: [] };
   const params = getQueryParams(keyword, page);
 
-  try {
-    // Get images from API
-    const { data } = await pexelsApi.get('search', {
-      params,
-      headers: {
-        Authorization: process.env.REACT_APP_PEXELX_KEY,
-      },
-    });
-    // Show error if nothing found
-    if (data.total_results === 0) throw new Error('Nothig found');
+  // Get images from API
+  const { data } = await pexelsApi.get('search', {
+    params,
+    headers: {
+      Authorization: process.env.REACT_APP_PEXELX_KEY,
+    },
+  });
+  // Show error if nothing found
+  if (data.total_results === 0) throw new Error('Nothig found');
 
-    result.total = data.total_results;
-    result.images = data.photos;
-  } catch (error) {
-    // Show error
-    toast.error(error.message);
-  }
+  result.total = data.total_results;
+  result.images = data.photos;
 
   return result;
 };

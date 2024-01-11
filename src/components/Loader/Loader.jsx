@@ -1,7 +1,7 @@
 import { Bars } from 'react-loader-spinner';
 import css from './Loader.module.css';
 
-const Loader = () => {
+export const Loader = () => {
   return (
     <div className={css.loaderBackdrop}>
       <div className={css.loaderModal}>
@@ -18,5 +18,3 @@ const Loader = () => {
     </div>
   );
 };
-
-export default Loader;
